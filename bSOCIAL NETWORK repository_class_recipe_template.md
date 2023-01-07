@@ -59,13 +59,13 @@ Usually, the Model class name will be the capitalised table name (single instead
 # Table name: students
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/post.rb)
+class Post
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/post_repository.rb)
+class PostRepository
 end
 ```
 
@@ -80,11 +80,13 @@ Define the attributes of your Model class. You can usually map the table columns
 # Model class
 # (in lib/student.rb)
 
-class Student
+class Post
 
-  # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+attr_accessor :id, :title, :content, :views
+
 end
+
+
 
 # The keyword attr_accessor is a special Ruby feature
 # which allows us to set and get attributes on an object,
@@ -108,49 +110,99 @@ Using comments, define the method signatures (arguments and return value) and wh
 # Table name: students
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/post_repository.rb)
 
-class StudentRepository
+class PostRepository
 
-  # Selecting all records
-  # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
-
-    # Returns an array of Student objects.
+    SELECT * FROM posts;
+    # Returns an array of post objects.
   end
 
   # Gets a single record by its ID
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
-
-    # Returns a single Student object.
+    SELECT * FROM posts WHERE id = $1;
+    # Returns a single post object.
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  def create(new_post)
+    INSERT INTO posts (title, content, views) VALUES($1, $2, $3);
+  end
 
-  # def create(student)
-  # end
+  def delete (id)
+     DELETE FROM posts WHERE id = $1;
+  end
 
-  # def update(student)
-  # end
 
-  # def delete(student)
-  # end
-end
-```
 
 ## 6. Write Test Examples
 
-Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
-
-These examples will later be encoded as RSpec tests.
-
 ```ruby
-# EXAMPLES
+
+# 1
+# Gets all posts
+
+repo = PostRepository.new
+all_posts = repo.all
+all_posts.length # =>  2
+all_posts[0].id # =>  1
+all_posts[0].title # =>  'Great nibbles'
+all_posts[0].content # => 'Liver, fava beans, chianti'
+all_posts[0].views # => 10
+all_posts[0].user_id # => 1
+all_posts[1].id # =>  1
+all_posts[1].title # =>  'Why everyone sucks'
+all_posts[1].content # => 'Is it just me or do...'
+all_posts[1].views # => 9
+all_posts[1].user_id # => 2
+
+# 2
+# Gets a single post
+
+repo = PostRepository.new
+
+sing_post = repo.find(1)
+sing_post.id # =>  1
+sing_post.title # =>  'Great nibbles'
+sing_post.content # => 'Liver, fava beans, chianti'
+sing_post.views # => 10
+sing_post.user_id # => 1
+
+
+# 3
+# Creates a new user
+
+repo = StudentRepository.new
+new_user = User.new
+new_user.username = 'Basil'
+new_user.email = 'baz@fawltytowers.co.uk'
+repo.create(new_user)
+repo.all # includes new_user
+
+# 4
+# Deletes a user
+
+repo = StudentRepository.new
+repo.delete(1)
+repo.all # => not include  'Hannibal', 'hannibubs@lector.com'
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 1
 # Get all students
