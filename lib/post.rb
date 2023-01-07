@@ -1,2 +1,4 @@
 class Post
-end
+  attr_accessor :id, :title, :content, :views
+  end
+  

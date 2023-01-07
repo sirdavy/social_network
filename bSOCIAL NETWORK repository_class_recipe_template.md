@@ -163,7 +163,6 @@ all_posts[1].user_id # => 2
 # Gets a single post
 
 repo = PostRepository.new
-
 sing_post = repo.find(1)
 sing_post.id # =>  1
 sing_post.title # =>  'Great nibbles'
@@ -173,67 +172,23 @@ sing_post.user_id # => 1
 
 
 # 3
-# Creates a new user
-
-repo = StudentRepository.new
-new_user = User.new
-new_user.username = 'Basil'
-new_user.email = 'baz@fawltytowers.co.uk'
+# Creates a new post
+repo = PostRepository.new
+new_post = Post.new
+new_post.title # => 'Problems with staff'
+new_post.content = 'He's from Barcelona'
+new_post.views # => 20
+new_post.user_id # => 3
 repo.create(new_user)
 repo.all # includes new_user
 
 # 4
-# Deletes a user
-
+# Deletes a post
 repo = StudentRepository.new
 repo.delete(1)
-repo.all # => not include  'Hannibal', 'hannibubs@lector.com'
-
+repo.all # => not include  'Great nibbles', 'Liver, fava beans, chianti'
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 1
-# Get all students
-
-repo = StudentRepository.new
-
-students = repo.all
-
-students.length # =>  2
-
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
-
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
-
-# 2
-# Get a single student
-
-repo = StudentRepository.new
-
-student = repo.find(1)
-
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
-
-# Add more examples for each method
-```
 
 Encode this example as a test.
 
